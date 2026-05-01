@@ -43,5 +43,7 @@ class ValheimModManagerApp(Gtk.Application):
 
 def main():
     import sys
+    from vmm.fonts import load_bundled_fonts
+    load_bundled_fonts()
     app = ValheimModManagerApp()
     sys.exit(app.run(sys.argv))

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>io.github.valheim.modmanager</id>
+  <id>io.github.alexism91.valheim-mod-manager</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>MIT</project_license>
   <name>Valheim Mod Manager</name>
@@ -8,10 +8,10 @@
   <description>
     <p>Valheim Mod Manager is a native Linux application to manage your Valheim mods via Thunderstore.io.</p>
   </description>
-  <url type="homepage">https://github.com/OWNER/REPO</url>
-  <launchable type="desktop-id">io.github.valheim.modmanager.desktop</launchable>
+  <url type="homepage">https://github.com/alexism91/Valheim-Mod-Manager</url>
+  <launchable type="desktop-id">io.github.alexism91.valheim-mod-manager.desktop</launchable>
   <releases>
-    <release version="X.Y.Z" date="YYYY-MM-DD"/>
+    <release version="1.0.0" date="YYYY-MM-DD"/>
   </releases>
   <content_rating type="oars-1.1"/>
 </component>

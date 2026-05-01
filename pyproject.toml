@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "valheim-mod-manager"
-version = "2.0.0"
-description = "Gestionnaire de mods GTK4 pour Valheim via Thunderstore.io"
+version = "1.0.0"
+description = "GTK4 mod manager for Valheim via Thunderstore.io"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -22,3 +22,6 @@ valheim-mod-manager = "vmm.app:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["vmm*"]
+
+[tool.setuptools.package-data]
+vmm = ["fonts/*.ttf", "icons/**/*.png"]

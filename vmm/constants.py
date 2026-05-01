@@ -2,8 +2,8 @@ from pathlib import Path
 
 THUNDERSTORE_API  = "https://thunderstore.io/c/valheim/api/v1/package/"
 THUNDERSTORE_URL  = "https://thunderstore.io/c/valheim"
-APP_ID            = "io.github.valheim.modmanager"
-APP_VERSION       = "2.0.0"
+APP_ID            = "io.github.alexism91.valheim-mod-manager"
+APP_VERSION       = "1.0.0"
 APP_NAME          = "Valheim Mod Manager"
 BATCH_SIZE        = 80
 SEARCH_DEBOUNCE   = 280   # ms

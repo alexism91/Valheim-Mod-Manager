@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Valheim Mod Manager
 Exec=valheim-mod-manager
-Icon=io.github.valheim.modmanager
+Icon=io.github.alexism91.valheim-mod-manager
 Type=Application
 Categories=Game;Utility;
 Terminal=false
