@@ -9,14 +9,8 @@ VALHEIM_APP_ID = "892970"
 
 
 def _build_launch_opts(valheim_path: Path) -> str:
-    p = str(valheim_path)
-    return (
-        f"DOORSTOP_ENABLED=1 "
-        f"DOORSTOP_TARGET_ASSEMBLY=\"{p}/BepInEx/core/BepInEx.Preloader.dll\" "
-        f"LD_LIBRARY_PATH=\"{p}/doorstop_libs\" "
-        f"LD_PRELOAD=\"libdoorstop_x64.so\" "
-        f"%command%"
-    )
+    script = str(valheim_path / "start_game_bepinex.sh")
+    return f'"{script}" %command%'
 
 
 def _find_localconfig() -> Path | None:
