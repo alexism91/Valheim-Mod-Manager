@@ -1,0 +1,30 @@
+app-id: io.github.valheim.modmanager
+runtime: org.gnome.Platform
+runtime-version: '46'
+sdk: org.gnome.Sdk
+command: valheim-mod-manager
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --filesystem=xdg-data/Steam:rw
+
+modules:
+  - name: valheim-mod-manager
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/bin /app/share/applications /app/share/metainfo /app/share/icons/hicolor/scalable/apps
+      - echo '#!/bin/sh' > /app/bin/valheim-mod-manager
+      - echo 'exec python3 /app/lib/python3/site-packages/vmm/main.py "$@"' >> /app/bin/valheim-mod-manager
+      - chmod +x /app/bin/valheim-mod-manager
+      - install -Dm755 main.py /app/lib/python3/site-packages/vmm/main.py
+      - cp -r vmm /app/lib/python3/site-packages/
+      - install -Dm644 io.github.valheim.modmanager.desktop /app/share/applications/io.github.valheim.modmanager.desktop
+      - install -Dm644 io.github.valheim.modmanager.metainfo.xml /app/share/metainfo/io.github.valheim.modmanager.metainfo.xml
+      - install -Dm644 io.github.valheim.modmanager.png /app/share/icons/hicolor/128x128/apps/io.github.valheim.modmanager.png
+    sources:
+      - type: git
+        url: https://github.com/OWNER/REPO
+        tag: vX.Y.Z
+        commit: COMMIT_HASH
