@@ -2,6 +2,7 @@ from gi.repository import Gtk, Gdk, GLib
 import subprocess
 from vmm.constants import APP_NAME
 from vmm.utils import fmt_number
+from vmm.utils_patch import patch_launch_script
 from vmm.ui.common import ToastOverlay
 from vmm.ui.pages.browse import BrowsePage
 from vmm.ui.pages.installed import InstalledPage
@@ -228,7 +229,14 @@ class AppWindow(Gtk.ApplicationWindow):
         self._toast.show(msg, kind)
 
     def _check_bepinex_bar(self):
-        self._bep_bar.set_visible(not self.manager.has_bepinex)
+        has_bep = self.manager.has_bepinex
+        self._bep_bar.set_visible(not has_bep)
+        if has_bep:
+            self._launch_btn.set_label("⚔ Lancer avec BepInEx")
+            self._launch_btn.set_tooltip_text("Lancer Valheim avec BepInEx (F6)")
+        else:
+            self._launch_btn.set_label("⚔ Lancer")
+            self._launch_btn.set_tooltip_text("Lancer Valheim (BepInEx non détecté)")
 
     def _install_bepinex(self, _):
         BEPINEX = "denikson-BepInExPack_Valheim"
@@ -285,11 +293,8 @@ class AppWindow(Gtk.ApplicationWindow):
         return False
 
     def _launch_game(self, _):
-        from vmm.utils_patch import patch_launch_script
         patch_launch_script(self.manager.valheim_path)
-        
         try:
-            # Lancement via le script BepInEx en utilisant le protocole Steam pour attacher Steamworks
             subprocess.Popen(["steam", "steam://run/892970"])
             self._show_toast("Lancement via Steam...", "success")
         except Exception as e:
