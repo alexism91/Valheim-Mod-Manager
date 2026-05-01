@@ -194,7 +194,15 @@ class BrowsePage(Gtk.Box):
             pkgs = [p for p in pkgs if self.current_category in p.get("categories", [])]
         pkgs = [p for p in pkgs if not p.get("is_deprecated", False)]
         if q := self.search_query:
-            pkgs = [p for p in pkgs if q in p.get("name", "").lower() or q in p.get("owner", "").lower()]
+            def _matches(p):
+                latest_desc = (p.get("versions") or [{}])[0].get("description") or ""
+                return (
+                    q in p.get("name", "").lower()
+                    or q in p.get("owner", "").lower()
+                    or q in latest_desc.lower()
+                    or any(q in cat.lower() for cat in p.get("categories", []))
+                )
+            pkgs = [p for p in pkgs if _matches(p)]
         if self.sort_key == 0:
             pkgs.sort(key=lambda p: p.get("rating_score", 0), reverse=True)
         elif self.sort_key == 1:
