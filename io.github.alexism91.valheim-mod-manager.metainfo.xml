@@ -8,8 +8,16 @@
   <description>
     <p>Valheim Mod Manager is a native Linux application to manage your Valheim mods via Thunderstore.io.</p>
   </description>
+  <developer_name>Majojo</developer_name>
+  <update_contact>alexis.majorczyk.6@gmail.com</update_contact>
   <url type="homepage">https://github.com/alexism91/Valheim-Mod-Manager</url>
   <launchable type="desktop-id">io.github.alexism91.valheim-mod-manager.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source" width="1402" height="962">https://raw.githubusercontent.com/alexism91/Valheim-Mod-Manager/main/screenshots/Menu.png</image>
+      <caption>Main mod browser interface</caption>
+    </screenshot>
+  </screenshots>
   <releases>
     <release version="1.0.0" date="2026-05-01"/>
   </releases>
