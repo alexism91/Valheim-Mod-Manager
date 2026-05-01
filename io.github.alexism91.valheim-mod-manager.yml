@@ -22,4 +22,4 @@ modules:
       - type: git
         url: https://github.com/alexism91/Valheim-Mod-Manager
         tag: v1.0.0
-        commit: COMMIT_HASH
+        commit: ed76749b4bbc1ec499652e6e4c6430f05d6c8133
