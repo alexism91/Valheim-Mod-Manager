@@ -11,7 +11,7 @@
   <url type="homepage">https://github.com/alexism91/Valheim-Mod-Manager</url>
   <launchable type="desktop-id">io.github.alexism91.valheim-mod-manager.desktop</launchable>
   <releases>
-    <release version="1.0.0" date="YYYY-MM-DD"/>
+    <release version="1.0.0" date="2026-05-01"/>
   </releases>
   <content_rating type="oars-1.1"/>
 </component>
