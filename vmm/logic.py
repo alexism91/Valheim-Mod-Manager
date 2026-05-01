@@ -1,4 +1,5 @@
 import os
+import stat as _stat
 import json
 import logging
 import threading
@@ -9,6 +10,8 @@ import urllib.request
 import subprocess
 from pathlib import Path
 from datetime import datetime
+
+from vmm.steam_config import set_bepinex_launch_options
 
 import gi
 from gi.repository import GLib
@@ -250,12 +253,8 @@ class ModManager:
                                 raise ValueError(f"Fichier malveillant: {member.filename}")
                             dest.parent.mkdir(parents=True, exist_ok=True)
                             dest.write_bytes(zf.read(member))
-                        # Rend les scripts de lancement exécutables
-                        import stat as _stat
                         for sh in install_dir.glob("*.sh"):
                             sh.chmod(sh.stat().st_mode | _stat.S_IXUSR | _stat.S_IXGRP | _stat.S_IXOTH)
-                        # Configure automatiquement les options de lancement Steam
-                        from vmm.steam_config import set_bepinex_launch_options
                         steam_ok = set_bepinex_launch_options(self.valheim_path)
                         package["_steam_opts_set"] = steam_ok
                     else:
@@ -269,6 +268,8 @@ class ModManager:
                             if not str(dest).startswith(str(resolved_install)):
                                 raise ValueError(f"Fichier malveillant: {member.filename}")
                         zf.extractall(install_dir)
+
+                zip_path.unlink(missing_ok=True)
 
                 GLib.idle_add(on_progress, *steps[2])
                 self.installed[pkg_full_name] = {

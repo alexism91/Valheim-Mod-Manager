@@ -59,23 +59,12 @@ class InstalledPage(Gtk.Box):
         container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=16)
         container.set_margin_start(32); container.set_margin_end(32); container.set_margin_top(24); container.set_margin_bottom(32)
 
-        # Profiles Bar
-        profiles = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
-        profiles.add_css_class("profiles-bar")
-        l = Gtk.Label(label="Profil"); l.set_opacity(0.6)
-        profiles.append(l)
-
-        for p in ["ᚠ Aventure principale", "ᛏ Test"]:
-            c = Gtk.Button(label=p); c.add_css_class("profile-chip")
-            if "Aventure" in p: c.add_css_class("active")
-            profiles.append(c)
-
+        toolbar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
         open_btn = Gtk.Button(label="📁 Ouvrir plugins/")
         open_btn.add_css_class("sm"); open_btn.set_hexpand(True); open_btn.set_halign(Gtk.Align.END)
         open_btn.connect("clicked", self._open_plugins_dir)
-        profiles.append(open_btn)
-
-        container.append(profiles)
+        toolbar.append(open_btn)
+        container.append(toolbar)
 
         self._list = Gtk.ListBox()
         self._list.set_selection_mode(Gtk.SelectionMode.NONE)
@@ -147,10 +136,8 @@ class InstalledPage(Gtk.Box):
             card.append(upd)
 
         btn_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4); btn_box.set_valign(Gtk.Align.CENTER)
-        cfg_btn = Gtk.Button(label="⚙"); cfg_btn.add_css_class("ghost"); cfg_btn.add_css_class("sm")
-        btn_box.append(cfg_btn)
         del_btn = Gtk.Button(label="✕"); del_btn.add_css_class("ghost"); del_btn.add_css_class("sm")
-        del_btn.connect("clicked", lambda *_: self._uninstall(full_name, info.get("name")))
+        del_btn.connect("clicked", lambda *_: self._uninstall(full_name, info.get("name", full_name)))
         btn_box.append(del_btn)
         card.append(btn_box)
 
@@ -158,9 +145,26 @@ class InstalledPage(Gtk.Box):
         self._list.append(row)
 
     def _uninstall(self, full_name: str, display_name: str):
+        dlg = Gtk.MessageDialog(
+            transient_for=self.get_root(),
+            modal=True,
+            message_type=Gtk.MessageType.QUESTION,
+            buttons=Gtk.ButtonsType.OK_CANCEL,
+            text=f"Désinstaller « {display_name} » ?",
+        )
+        dlg.format_secondary_text("Ce mod sera supprimé définitivement.")
+        dlg.connect("response", self._on_uninstall_response, full_name)
+        dlg.present()
+
+    def _on_uninstall_response(self, dlg, response, full_name):
+        dlg.destroy()
+        if response != Gtk.ResponseType.OK:
+            return
         name = self.manager.uninstall(full_name)
-        if name: self.show_toast(f"Retire : {name}", "info")
-        self.refresh(); self.on_changes()
+        if name:
+            self.show_toast(f"Retiré : {name}", "info")
+        self.refresh()
+        self.on_changes()
 
     def _on_toggle(self, full_name: str, enabled: bool) -> bool:
         if not self.manager.set_enabled(full_name, enabled):
